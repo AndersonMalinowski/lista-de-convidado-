@@ -1,65 +1,80 @@
-const convidados = ["Alice", "Bruno", "Amanda", "Carlos", "Beatriz", "Alexandre", "Zeca", "Adriana", "Fernando", "Gabriel", "Priscila"];
+const convidados = ["Alice", "Bruno", "Amanda", "Carlos", "Beatriz", "Alexandre", "Zeca", "Adriana", "Fernando", "Gabriel", "Priscila", "Zuleide"];
 
-// Função range personalizada
 const range = (start, end) => Array.from({ length: end - start }, (v, k) => k + start);
 
-// Gerar botões de A a Z dinamicamente usando range e códigos ASCII (65-91)
+let letraSelecionada = "";
+
+// Criar Alfabeto com range()
 const alfabetoDiv = document.getElementById('alfabeto');
 range(65, 91).forEach(codigo => {
     const letra = String.fromCharCode(codigo);
-    const botao = document.createElement('button');
-    botao.textContent = letra;
-    botao.className = 'btn-letra';
-    botao.onclick = () => filtrarPorLetra(letra);
-    alfabetoDiv.appendChild(botao);
+    const btn = document.createElement('button');
+    btn.textContent = letra;
+    btn.className = 'btn-letra';
+    btn.onclick = () => {
+        // Alternar classe ativa
+        document.querySelectorAll('.btn-letra').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        letraSelecionada = letra;
+        filtrarGeral();
+    };
+    alfabetoDiv.appendChild(btn);
 });
 
-function renderizarListas(filtro = null) {
+function filtrarGeral() {
+    const termoBusca = document.getElementById('inputBusca').value.toUpperCase();
+    
     const ulMaiuscula = document.getElementById('lista-maiuscula');
     const ulLetraA = document.getElementById('lista-letra-a');
     const ulLongos = document.getElementById('lista-longos');
     const pContadorA = document.getElementById('contador-a');
 
-    // Limpar listas antes de renderizar
     ulMaiuscula.innerHTML = "";
     ulLetraA.innerHTML = "";
     ulLongos.innerHTML = "";
     
     let contadorA = 0;
 
-    // Loop principal usando range para os índices
+    // Loop com range para percorrer os índices
     for (let i of range(0, convidados.length)) {
         const nome = convidados[i];
+        const nomeUpper = nome.toUpperCase();
 
-        // Lógica de Filtro A-Z (se houver filtro ativo)
-        if (filtro && !nome.toUpperCase().startsWith(filtro)) continue;
+        // Lógica de Filtro Duplo (Texto + Letra do Botão)
+        const atendeLetra = letraSelecionada === "" || nomeUpper.startsWith(letraSelecionada);
+        const atendeBusca = nomeUpper.includes(termoBusca);
 
-        // 1. Lista Maiúscula
-        const liM = document.createElement('li');
-        liM.textContent = nome.toUpperCase();
-        ulMaiuscula.appendChild(liM);
+        if (atendeLetra && atendeBusca) {
+            // 1. Lista Principal (Maiúscula)
+            const li = document.createElement('li');
+            li.textContent = nomeUpper;
+            ulMaiuscula.appendChild(li);
 
-        // 2. Lista apenas com Letra 'A' (independente do filtro geral)
-        if (nome.toUpperCase().startsWith('A')) {
+            // 3. Lista Nomes Longos (> 5 letras)
+            if (nome.length > 5) {
+                const liL = document.createElement('li');
+                liL.textContent = nome;
+                ulLongos.appendChild(liL);
+            }
+        }
+
+        // 2. Estatística Fixa: Começam com A (Sempre conta da base original)
+        if (nomeUpper.startsWith('A')) {
             contadorA++;
             const liA = document.createElement('li');
             liA.textContent = nome;
             ulLetraA.appendChild(liA);
         }
-
-        // 3. Lista nomes com mais de 5 letras
-        if (nome.length > 5) {
-            const liLongo = document.createElement('li');
-            liLongo.textContent = nome;
-            ulLongos.appendChild(liLongo);
-        }
     }
-    pContadorA.textContent = `Total de "A" na base: ${contadorA}`;
+    pContadorA.textContent = `Total de "A" cadastrados: ${contadorA}`;
 }
 
-function filtrarPorLetra(letra) {
-    renderizarListas(letra);
+function limparFiltros() {
+    document.getElementById('inputBusca').value = "";
+    letraSelecionada = "";
+    document.querySelectorAll('.btn-letra').forEach(b => b.classList.remove('active'));
+    filtrarGeral();
 }
 
-// Inicializa a página
-renderizarListas();
+// Inicia o sistema
+filtrarGeral();
