@@ -3,33 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador de Convidados Pro</title>
+    <title>Gerenciador de Convidados VIP</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Controle de Convidados</h1>
+    <h1>Painel de Gerenciamento</h1>
 
-    <div class="filtro-container">
-        <span>Filtrar por letra:</span>
+    <div class="filtro-card">
+        <div class="busca-container">
+            <input type="text" id="inputBusca" placeholder="Digite um nome para pesquisar..." oninput="filtrarGeral()">
+        </div>
+        
+        <div class="alfabeto-label">Filtrar por inicial:</div>
         <div id="alfabeto" class="botoes-alfabeto"></div>
-        <button onclick="renderizarListas()" class="btn-limpar">Mostrar Todos</button>
+        
+        <button onclick="limparFiltros()" class="btn-limpar">Limpar Filtros</button>
     </div>
     
     <div class="container">
         <div class="card">
-            <h2>Todos (MAIÚSCULO)</h2>
+            <h2>Lista Principal</h2>
             <ul id="lista-maiuscula"></ul>
         </div>
 
         <div class="card">
-            <h2>Começam com "A"</h2>
-            <p id="contador-a"></p>
+            <h2>Iniciam com "A"</h2>
+            <p id="contador-a" class="badge"></p>
             <ul id="lista-letra-a"></ul>
         </div>
 
         <div class="card">
-            <h2>Nomes Longos (> 5 letras)</h2>
+            <h2>Nomes Longos</h2>
             <ul id="lista-longos"></ul>
         </div>
     </div>
