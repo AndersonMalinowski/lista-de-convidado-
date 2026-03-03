@@ -1,42 +1,114 @@
-/* ... (mantenha o CSS anterior e adicione este) ... */
+:root {
+    --primary: #007bff;
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text: #333;
+}
 
-.filtro-container {
-    margin-bottom: 30px;
-    padding: 15px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 40px 20px;
+    margin: 0;
+}
+
+h1 { margin-bottom: 30px; text-align: center; }
+
+/* Estilo do Card de Filtro */
+.filtro-card {
+    background: var(--card-bg);
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.busca-container input {
+    width: 80%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.busca-container input:focus { border-color: var(--primary); }
+
+.alfabeto-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #666;
 }
 
 .botoes-alfabeto {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 5px;
-    margin: 10px 0;
+    gap: 6px;
 }
 
 .btn-letra {
-    padding: 8px 12px;
-    border: 1px solid #007bff;
-    background: white;
-    color: #007bff;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #eee;
+    background: #fdfdfd;
     cursor: pointer;
-    border-radius: 4px;
-    transition: 0.3s;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.2s;
 }
 
-.btn-letra:hover {
-    background: #007bff;
+.btn-letra:hover, .btn-letra.active {
+    background: var(--primary);
     color: white;
+    transform: translateY(-2px);
 }
 
 .btn-limpar {
-    margin-top: 10px;
-    padding: 8px 20px;
-    background: #6c757d;
+    margin-top: 20px;
+    background: #f44336;
     color: white;
     border: none;
-    border-radius: 4px;
+    padding: 8px 20px;
+    border-radius: 5px;
     cursor: pointer;
+}
+
+/* Layout das Listas */
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    width: 280px;
+}
+
+.badge {
+    background: #e7f3ff;
+    color: var(--primary);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+ul { list-style: none; padding: 0; }
+li {
+    background: #f1f3f5;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.95rem;
 }
