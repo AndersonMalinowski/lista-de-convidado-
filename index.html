@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador de Convidados</title>
+    <title>Gerenciador de Convidados Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Painel de Gerenciamento de Convidados</h1>
+    <h1>Controle de Convidados</h1>
+
+    <div class="filtro-container">
+        <span>Filtrar por letra:</span>
+        <div id="alfabeto" class="botoes-alfabeto"></div>
+        <button onclick="renderizarListas()" class="btn-limpar">Mostrar Todos</button>
+    </div>
     
     <div class="container">
         <div class="card">
-            <h2>Convidados (MAIÚSCULO)</h2>
+            <h2>Todos (MAIÚSCULO)</h2>
             <ul id="lista-maiuscula"></ul>
         </div>
 
