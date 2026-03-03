@@ -1,18 +1,27 @@
-const convidados = ["Alice", "Bruno", "Amanda", "Carlos", "Beatriz", "Alexandre", "Zeca", "Adriana", "Fernando", "Gabriel", "Priscila", "Zuleide"];
-
-const range = (start, end) => Array.from({ length: end - start }, (v, k) => k + start);
+// Base de dados expandida
+let convidados = JSON.parse(localStorage.getItem('convidados')) || [
+    "Alice Ferreira", "Bruno Alves", "Amanda Costa", "Carlos Souza", 
+    "Beatriz Matos", "Alexandre Pires", "Zeca Pagodinho", "Adriana Lima",
+    "Fernando Meira", "Gabriel Magalhães", "Priscila Rocha", "Zuleide Castro",
+    "Humberto Gessinger", "Igor Guimarães", "Juliana Paes", "Kevinho", "Larissa Manoela"
+];
 
 let letraSelecionada = "";
+const range = (start, end) => Array.from({ length: end - start }, (v, k) => k + start);
 
-// Criar Alfabeto com range()
+// 1. Relógio em tempo real
+setInterval(() => {
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+}, 1000);
+
+// 2. Gerador de Alfabeto com range()
 const alfabetoDiv = document.getElementById('alfabeto');
-range(65, 91).forEach(codigo => {
-    const letra = String.fromCharCode(codigo);
+range(65, 91).forEach(cod => {
+    const letra = String.fromCharCode(cod);
     const btn = document.createElement('button');
     btn.textContent = letra;
     btn.className = 'btn-letra';
     btn.onclick = () => {
-        // Alternar classe ativa
         document.querySelectorAll('.btn-letra').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         letraSelecionada = letra;
@@ -21,60 +30,22 @@ range(65, 91).forEach(codigo => {
     alfabetoDiv.appendChild(btn);
 });
 
-function filtrarGeral() {
-    const termoBusca = document.getElementById('inputBusca').value.toUpperCase();
-    
-    const ulMaiuscula = document.getElementById('lista-maiuscula');
-    const ulLetraA = document.getElementById('lista-letra-a');
-    const ulLongos = document.getElementById('lista-longos');
-    const pContadorA = document.getElementById('contador-a');
-
-    ulMaiuscula.innerHTML = "";
-    ulLetraA.innerHTML = "";
-    ulLongos.innerHTML = "";
-    
-    let contadorA = 0;
-
-    // Loop com range para percorrer os índices
-    for (let i of range(0, convidados.length)) {
-        const nome = convidados[i];
-        const nomeUpper = nome.toUpperCase();
-
-        // Lógica de Filtro Duplo (Texto + Letra do Botão)
-        const atendeLetra = letraSelecionada === "" || nomeUpper.startsWith(letraSelecionada);
-        const atendeBusca = nomeUpper.includes(termoBusca);
-
-        if (atendeLetra && atendeBusca) {
-            // 1. Lista Principal (Maiúscula)
-            const li = document.createElement('li');
-            li.textContent = nomeUpper;
-            ulMaiuscula.appendChild(li);
-
-            // 3. Lista Nomes Longos (> 5 letras)
-            if (nome.length > 5) {
-                const liL = document.createElement('li');
-                liL.textContent = nome;
-                ulLongos.appendChild(liL);
-            }
-        }
-
-        // 2. Estatística Fixa: Começam com A (Sempre conta da base original)
-        if (nomeUpper.startsWith('A')) {
-            contadorA++;
-            const liA = document.createElement('li');
-            liA.textContent = nome;
-            ulLetraA.appendChild(liA);
-        }
+// 3. Adicionar com persistência
+function adicionarConvidado() {
+    const input = document.getElementById('novoNome');
+    const nome = input.value.trim();
+    if (nome) {
+        convidados.push(nome);
+        salvarEDistribuir();
+        input.value = "";
     }
-    pContadorA.textContent = `Total de "A" cadastrados: ${contadorA}`;
 }
 
-function limparFiltros() {
-    document.getElementById('inputBusca').value = "";
-    letraSelecionada = "";
-    document.querySelectorAll('.btn-letra').forEach(b => b.classList.remove('active'));
-    filtrarGeral();
+// 4. Remover convidado
+function removerConvidado(index) {
+    convidados.splice(index, 1);
+    salvarEDistribuir();
 }
 
-// Inicia o sistema
-filtrarGeral();
+function salvarEDistribuir() {
+    localStorage.setItem('convidados', JSON.stringify(
