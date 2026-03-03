@@ -3,69 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventFlow | Gestão Inteligente</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Gerenciador de Convidados VIP</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">Event<span>Flow</span></div>
-        <div class="nav-stats">
-            <span id="clock">00:00:00</span>
+    <h1>Painel de Gerenciamento</h1>
+
+    <div class="filtro-card">
+        <div class="busca-container">
+            <input type="text" id="inputBusca" placeholder="Digite um nome para pesquisar..." oninput="filtrarGeral()">
         </div>
-    </nav>
+        
+        <div class="alfabeto-label">Filtrar por inicial:</div>
+        <div id="alfabeto" class="botoes-alfabeto"></div>
+        
+        <button onclick="limparFiltros()" class="btn-limpar">Limpar Filtros</button>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <h2>Lista Principal</h2>
+            <ul id="lista-maiuscula"></ul>
+        </div>
 
-    <main class="dashboard">
-        <aside class="sidebar">
-            <div class="widget">
-                <h3>🆕 Novo Convidado</h3>
-                <div class="input-group">
-                    <input type="text" id="novoNome" placeholder="Digite o nome completo...">
-                    <button onclick="adicionarConvidado()" class="btn-primary">Adicionar</button>
-                </div>
-            </div>
+        <div class="card">
+            <h2>Iniciam com "A"</h2>
+            <p id="contador-a" class="badge"></p>
+            <ul id="lista-letra-a"></ul>
+        </div>
 
-            <div class="widget">
-                <h3>🔍 Busca Avançada</h3>
-                <input type="text" id="inputBusca" placeholder="Filtrar por nome..." oninput="filtrarGeral()">
-                <div class="alphabet-grid" id="alfabeto"></div>
-                <button onclick="limparFiltros()" class="btn-outline">Limpar Tudo</button>
-            </div>
-
-            <div class="widget summary">
-                <h3>📊 Resumo Geral</h3>
-                <div class="stat-row"><span>Total:</span> <strong id="stat-total">0</strong></div>
-                <div class="stat-row"><span>Com letra 'A':</span> <strong id="stat-a">0</strong></div>
-                <div class="stat-row"><span>Nomes Longos:</span> <strong id="stat-longos">0</strong></div>
-            </div>
-        </aside>
-
-        <section class="content">
-            <div class="list-container">
-                <div class="column">
-                    <div class="column-header">
-                        <h2>Lista Oficial (A-Z)</h2>
-                    </div>
-                    <ul id="lista-maiuscula" class="custom-list"></ul>
-                </div>
-
-                <div class="column special">
-                    <div class="column-header">
-                        <h2>Foco: Letra A</h2>
-                    </div>
-                    <ul id="lista-letra-a" class="custom-list"></ul>
-                </div>
-
-                <div class="column">
-                    <div class="column-header">
-                        <h2>Nomes Detalhados (>5)</h2>
-                    </div>
-                    <ul id="lista-longos" class="custom-list"></ul>
-                </div>
-            </div>
-        </section>
-    </main>
+        <div class="card">
+            <h2>Nomes Longos</h2>
+            <ul id="lista-longos"></ul>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
